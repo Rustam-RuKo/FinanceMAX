@@ -1,0 +1,54 @@
+{
+  "name": "financemax",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "typecheck": "tsc --noEmit",
+    "db:validate": "prisma validate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "db:seed": "tsx scripts/seed.ts",
+    "seed:production": "node scripts/seed-production.mjs",
+    "bootstrap:production-users": "tsx scripts/bootstrap-production-users.ts",
+    "seed:demo": "tsx scripts/seed.ts --demo",
+    "cleanup:production": "node scripts/production-cleanup.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "test:housekeeping": "node --test tests/production-readiness.test.mjs",
+    "test:unit": "tsx --test tests/financial.test.ts tests/authorization.test.ts tests/edge-cases.test.ts",
+    "test:http": "node scripts/test.mjs --http",
+    "db:admin": "tsx scripts/create-admin.ts",
+    "db:runtime": "node scripts/configure-runtime.mjs --apply-reviewed-migration"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.0",
+    "decimal.js": "10.6.0",
+    "dotenv": "^18.0.3",
+    "exceljs": "4.4.0",
+    "next": "^16.3.6",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "prettier": "^3.9.9",
+    "prisma": "6.19.0",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "exceljs": {
+      "uuid": "11.1.1"
+    },
+    "effect": "^3.20.0",
+    "deepmerge-ts": "8.0.0"
+  }
+}
+

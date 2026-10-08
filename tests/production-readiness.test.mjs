@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {assertDryRun,assertDemoTarget,classify,protectedNames} from '../scripts/production-safety.mjs';
+test('Удаление недоступно; неизвестные параметры запрещены',()=>{assertDryRun([]);assertDryRun(['--dry-run']);for(const arg of ['--apply','--force','--apply=true'])assert.throws(()=>assertDryRun([arg]));});
+test('Пять защищённых людей KEEP независимо от demo',()=>{for(const name of protectedNames){assert.equal(classify('User',{name,demo:true}).group,'KEEP');assert.equal(classify('Employee',{name:'Демо',userId:'1'},[{id:'1',name,demo:true}]).group,'KEEP');}});
+test('Закрытый demo сезон только ручное решение',()=>{assert.equal(classify('Season',{name:'ДЕМО',status:'Закрыт'}).group,'REVIEW REQUIRED');});
+test('Неоднозначные реальные имена не объявляются доказанно реальными',()=>{assert.equal(classify('Employee',{name:'Иван Иванов'}).group,'REVIEW REQUIRED');assert.equal(classify('Project',{code:'ДЕМО-01'}).group,'REMOVE CANDIDATE');});
+test('Справочники не кандидаты на автоматическое удаление',()=>{assert.equal(classify('PaymentCategory',{name:'ДЕМО'}).group,'KEEP');});
+test('Demo только отдельная явно разрешённая локальная база',()=>{const env={FINANCEMAX_ENV:'demo',DATABASE_URL:'postgresql://localhost/financemax_demo'};assertDemoTarget(env,['--demo']);for(const override of [{NODE_ENV:'production'},{FINANCEMAX_ENV:'production'},{DATABASE_URL:'postgresql://localhost/financemax'},{DATABASE_URL:'postgresql://example.com/financemax_demo'}])assert.throws(()=>assertDemoTarget({...env,...override},['--demo']));assert.throws(()=>assertDemoTarget(env,[]));});
+test('Cleanup транзакция read-only; нет SQL мутаций',()=>{const source=readFileSync('scripts/production-cleanup.mjs','utf8');assert.match(source,/REPEATABLE READ, READ ONLY/);assert.doesNotMatch(source,/\b(?:DELETE FROM|TRUNCATE|DROP TABLE|UPDATE\s+"|INSERT INTO)\b/i);});

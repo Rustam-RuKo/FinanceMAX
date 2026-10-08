@@ -1,0 +1,971 @@
+generator client {
+ provider = "prisma-client-js"
+}
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+ directUrl = env("MIGRATION_DATABASE_URL")
+}
+enum Role {
+ ADMIN_MANAGEMENT
+ PARTNER
+ EMPLOYEE
+}
+model User {
+ auditSections ProjectAuditSection[] @relation("SectionActor")
+ sectionAssignments ProjectSectionAssignment[] @relation("SectionAssignmentActor")
+ tripPayments TripPaymentLink[] @relation("TripPaymentActor")
+ tripReviews TripPaymentReview[] @relation("TripReviewActor")
+ acceptedCalculations CalculationAcceptance[]
+ bonusApprovals BonusExceptionApproval[]
+ paymentAttributions PartnerPaymentAttribution[]
+
+ commandReceipts CommandReceipt[] @relation("CommandReceiptUser")
+
+ demo Boolean @default(false)
+ failedLogins Int @default(0)
+ lockedUntil DateTime?
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ email String @unique
+ passwordHash String
+ role Role
+ active Boolean @default(true)
+ sessions Session[]
+ Season_createdBy_rows Season[] @relation("Season_createdBy")
+ Season_updatedBy_rows Season[] @relation("Season_updatedBy")
+ Employee_userId_rows Employee[] @relation("Employee_userId")
+ Employee_createdBy_rows Employee[] @relation("Employee_createdBy")
+ Employee_updatedBy_rows Employee[] @relation("Employee_updatedBy")
+ Partner_userId_rows Partner[] @relation("Partner_userId")
+ Partner_createdBy_rows Partner[] @relation("Partner_createdBy")
+ Partner_updatedBy_rows Partner[] @relation("Partner_updatedBy")
+ Project_createdBy_rows Project[] @relation("Project_createdBy")
+ Project_updatedBy_rows Project[] @relation("Project_updatedBy")
+ ProjectAssignment_createdBy_rows ProjectAssignment[] @relation("ProjectAssignment_createdBy")
+ ProjectAssignment_updatedBy_rows ProjectAssignment[] @relation("ProjectAssignment_updatedBy")
+ EmployeeSalaryRate_createdBy_rows EmployeeSalaryRate[] @relation("EmployeeSalaryRate_createdBy")
+ EmployeeSalaryRate_updatedBy_rows EmployeeSalaryRate[] @relation("EmployeeSalaryRate_updatedBy")
+ ComplexityLevel_createdBy_rows ComplexityLevel[] @relation("ComplexityLevel_createdBy")
+ ComplexityLevel_updatedBy_rows ComplexityLevel[] @relation("ComplexityLevel_updatedBy")
+ ComplexityRate_createdBy_rows ComplexityRate[] @relation("ComplexityRate_createdBy")
+ ComplexityRate_updatedBy_rows ComplexityRate[] @relation("ComplexityRate_updatedBy")
+ ProjectPartnerRate_createdBy_rows ProjectPartnerRate[] @relation("ProjectPartnerRate_createdBy")
+ ProjectPartnerRate_updatedBy_rows ProjectPartnerRate[] @relation("ProjectPartnerRate_updatedBy")
+ WorkEntry_createdBy_rows WorkEntry[] @relation("WorkEntry_createdBy")
+ WorkEntry_updatedBy_rows WorkEntry[] @relation("WorkEntry_updatedBy")
+ PaymentCategory_createdBy_rows PaymentCategory[] @relation("PaymentCategory_createdBy")
+ PaymentCategory_updatedBy_rows PaymentCategory[] @relation("PaymentCategory_updatedBy")
+ EmployeePayment_createdBy_rows EmployeePayment[] @relation("EmployeePayment_createdBy")
+ EmployeePayment_updatedBy_rows EmployeePayment[] @relation("EmployeePayment_updatedBy")
+ ExpenseCategory_createdBy_rows ExpenseCategory[] @relation("ExpenseCategory_createdBy")
+ ExpenseCategory_updatedBy_rows ExpenseCategory[] @relation("ExpenseCategory_updatedBy")
+ Expense_createdBy_rows Expense[] @relation("Expense_createdBy")
+ Expense_updatedBy_rows Expense[] @relation("Expense_updatedBy")
+ ProjectRevenue_createdBy_rows ProjectRevenue[] @relation("ProjectRevenue_createdBy")
+ ProjectRevenue_updatedBy_rows ProjectRevenue[] @relation("ProjectRevenue_updatedBy")
+ BusinessTrip_createdBy_rows BusinessTrip[] @relation("BusinessTrip_createdBy")
+ BusinessTrip_updatedBy_rows BusinessTrip[] @relation("BusinessTrip_updatedBy")
+ LedgerAccount_createdBy_rows LedgerAccount[] @relation("LedgerAccount_createdBy")
+ LedgerAccount_updatedBy_rows LedgerAccount[] @relation("LedgerAccount_updatedBy")
+ JournalTransaction_createdBy_rows JournalTransaction[] @relation("JournalTransaction_createdBy")
+ JournalTransaction_updatedBy_rows JournalTransaction[] @relation("JournalTransaction_updatedBy")
+ JournalLine_createdBy_rows JournalLine[] @relation("JournalLine_createdBy")
+ JournalLine_updatedBy_rows JournalLine[] @relation("JournalLine_updatedBy")
+ CashOutMethod_createdBy_rows CashOutMethod[] @relation("CashOutMethod_createdBy")
+ CashOutMethod_updatedBy_rows CashOutMethod[] @relation("CashOutMethod_updatedBy")
+ CashOutMethodRate_createdBy_rows CashOutMethodRate[] @relation("CashOutMethodRate_createdBy")
+ CashOutMethodRate_updatedBy_rows CashOutMethodRate[] @relation("CashOutMethodRate_updatedBy")
+ CashOutTransaction_createdBy_rows CashOutTransaction[] @relation("CashOutTransaction_createdBy")
+ CashOutTransaction_updatedBy_rows CashOutTransaction[] @relation("CashOutTransaction_updatedBy")
+ CashOutAllocation_createdBy_rows CashOutAllocation[] @relation("CashOutAllocation_createdBy")
+ CashOutAllocation_updatedBy_rows CashOutAllocation[] @relation("CashOutAllocation_updatedBy")
+ CashReconciliation_createdBy_rows CashReconciliation[] @relation("CashReconciliation_createdBy")
+ CashReconciliation_updatedBy_rows CashReconciliation[] @relation("CashReconciliation_updatedBy")
+ QuarterEmployeeSettlement_createdBy_rows QuarterEmployeeSettlement[] @relation("QuarterEmployeeSettlement_createdBy")
+ QuarterEmployeeSettlement_updatedBy_rows QuarterEmployeeSettlement[] @relation("QuarterEmployeeSettlement_updatedBy")
+ SeasonEmployeeSettlement_createdBy_rows SeasonEmployeeSettlement[] @relation("SeasonEmployeeSettlement_createdBy")
+ SeasonEmployeeSettlement_updatedBy_rows SeasonEmployeeSettlement[] @relation("SeasonEmployeeSettlement_updatedBy")
+ AllocationRun_createdBy_rows AllocationRun[] @relation("AllocationRun_createdBy")
+ AllocationRun_updatedBy_rows AllocationRun[] @relation("AllocationRun_updatedBy")
+ ProjectAllocation_createdBy_rows ProjectAllocation[] @relation("ProjectAllocation_createdBy")
+ ProjectAllocation_updatedBy_rows ProjectAllocation[] @relation("ProjectAllocation_updatedBy")
+ PartnerPayment_createdBy_rows PartnerPayment[] @relation("PartnerPayment_createdBy")
+ PartnerPayment_updatedBy_rows PartnerPayment[] @relation("PartnerPayment_updatedBy")
+ SeasonClosing_createdBy_rows SeasonClosing[] @relation("SeasonClosing_createdBy")
+ SeasonClosing_updatedBy_rows SeasonClosing[] @relation("SeasonClosing_updatedBy")
+ SeasonClosingCheck_createdBy_rows SeasonClosingCheck[] @relation("SeasonClosingCheck_createdBy")
+ SeasonClosingCheck_updatedBy_rows SeasonClosingCheck[] @relation("SeasonClosingCheck_updatedBy")
+ AuditLog_createdBy_rows AuditLog[] @relation("AuditLog_createdBy")
+ AuditLog_updatedBy_rows AuditLog[] @relation("AuditLog_updatedBy")
+}
+model Session {
+ createdAt DateTime @default(now())
+ id String @id @default(uuid()) @db.Uuid
+ tokenHash String @unique
+ userId String @db.Uuid
+ user User @relation(fields:[userId],references:[id])
+ expiresAt DateTime
+
+}
+
+model Season {
+ tripPayments TripPaymentLink[]
+ tripReviews TripPaymentReview[]
+ workRevision Int @default(0)
+ compensationRevision Int @default(0)
+ economicRevision Int @default(0)
+ projectSeasons ProjectSeason[]
+ acceptances CalculationAcceptance[]
+ bonusApprovals BonusExceptionApproval[]
+
+ revision Int @default(0)
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ startDate DateTime @db.Date
+ endDate DateTime @db.Date
+ status String @default("Активный")
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("Season_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("Season_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ Project_seasonId_rows Project[] @relation("Project_seasonId")
+ WorkEntry_seasonId_rows WorkEntry[] @relation("WorkEntry_seasonId")
+ EmployeePayment_seasonId_rows EmployeePayment[] @relation("EmployeePayment_seasonId")
+ Expense_seasonId_rows Expense[] @relation("Expense_seasonId")
+ ProjectRevenue_seasonId_rows ProjectRevenue[] @relation("ProjectRevenue_seasonId")
+ BusinessTrip_seasonId_rows BusinessTrip[] @relation("BusinessTrip_seasonId")
+ JournalTransaction_seasonId_rows JournalTransaction[] @relation("JournalTransaction_seasonId")
+ CashOutTransaction_seasonId_rows CashOutTransaction[] @relation("CashOutTransaction_seasonId")
+ CashReconciliation_seasonId_rows CashReconciliation[] @relation("CashReconciliation_seasonId")
+ QuarterEmployeeSettlement_seasonId_rows QuarterEmployeeSettlement[] @relation("QuarterEmployeeSettlement_seasonId")
+ SeasonEmployeeSettlement_seasonId_rows SeasonEmployeeSettlement[] @relation("SeasonEmployeeSettlement_seasonId")
+ AllocationRun_seasonId_rows AllocationRun[] @relation("AllocationRun_seasonId")
+ PartnerPayment_seasonId_rows PartnerPayment[] @relation("PartnerPayment_seasonId")
+ SeasonClosing_seasonId_rows SeasonClosing[] @relation("SeasonClosing_seasonId")
+}
+
+model Employee {
+ sectionAssignments ProjectSectionAssignment[]
+ bonusApprovals BonusExceptionApproval[]
+
+ journals JournalTransaction[] @relation("JournalEmployee")
+
+ id String @id @default(uuid()) @db.Uuid
+ userId String? @unique @db.Uuid
+ name String
+ archived Boolean @default(false)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ userIdRef User? @relation("Employee_userId", fields: [userId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("Employee_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("Employee_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ ProjectAssignment_employeeId_rows ProjectAssignment[] @relation("ProjectAssignment_employeeId")
+ EmployeeSalaryRate_employeeId_rows EmployeeSalaryRate[] @relation("EmployeeSalaryRate_employeeId")
+ WorkEntry_employeeId_rows WorkEntry[] @relation("WorkEntry_employeeId")
+ EmployeePayment_employeeId_rows EmployeePayment[] @relation("EmployeePayment_employeeId")
+ BusinessTrip_employeeId_rows BusinessTrip[] @relation("BusinessTrip_employeeId")
+ QuarterEmployeeSettlement_employeeId_rows QuarterEmployeeSettlement[] @relation("QuarterEmployeeSettlement_employeeId")
+ SeasonEmployeeSettlement_employeeId_rows SeasonEmployeeSettlement[] @relation("SeasonEmployeeSettlement_employeeId")
+}
+
+model Partner {
+ journals JournalTransaction[] @relation("JournalPartner")
+
+ id String @id @default(uuid()) @db.Uuid
+ userId String? @unique @db.Uuid
+ name String
+ archived Boolean @default(false)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ userIdRef User? @relation("Partner_userId", fields: [userId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("Partner_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("Partner_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ Project_partnerId_rows Project[] @relation("Project_partnerId")
+ PartnerPayment_partnerId_rows PartnerPayment[] @relation("PartnerPayment_partnerId")
+}
+
+model Project {
+ projectType AuditProjectType?
+ auditSections ProjectAuditSection[]
+ journals JournalTransaction[] @relation("JournalProject")
+ seasons ProjectSeason[]
+
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ partnerId String @db.Uuid
+ name String
+ code String @unique
+ client String
+ startDate DateTime @db.Date
+ endDate DateTime? @db.Date
+ status String @default("Черновик")
+ comment String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("Project_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ partnerIdRef Partner @relation("Project_partnerId", fields: [partnerId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("Project_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("Project_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ ProjectAssignment_projectId_rows ProjectAssignment[] @relation("ProjectAssignment_projectId")
+ ProjectPartnerRate_projectId_rows ProjectPartnerRate[] @relation("ProjectPartnerRate_projectId")
+ WorkEntry_projectId_rows WorkEntry[] @relation("WorkEntry_projectId")
+ Expense_projectId_rows Expense[] @relation("Expense_projectId")
+ ProjectRevenue_projectId_rows ProjectRevenue[] @relation("ProjectRevenue_projectId")
+ BusinessTrip_projectId_rows BusinessTrip[] @relation("BusinessTrip_projectId")
+ CashOutAllocation_projectId_rows CashOutAllocation[] @relation("CashOutAllocation_projectId")
+ ProjectAllocation_projectId_rows ProjectAllocation[] @relation("ProjectAllocation_projectId")
+}
+
+model ProjectAssignment {
+ id String @id @default(uuid()) @db.Uuid
+ projectId String @db.Uuid
+ employeeId String @db.Uuid
+ @@unique([projectId,employeeId])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ projectIdRef Project @relation("ProjectAssignment_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("ProjectAssignment_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("ProjectAssignment_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ProjectAssignment_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model EmployeeSalaryRate {
+ id String @id @default(uuid()) @db.Uuid
+ employeeId String @db.Uuid
+ amount Decimal @db.Decimal(20,4)
+ validFrom DateTime @db.Date
+ validTo DateTime? @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ employeeIdRef Employee @relation("EmployeeSalaryRate_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("EmployeeSalaryRate_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("EmployeeSalaryRate_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model ComplexityLevel {
+ sectionAssignments ProjectSectionAssignment[]
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("ComplexityLevel_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ComplexityLevel_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ ComplexityRate_complexityLevelId_rows ComplexityRate[] @relation("ComplexityRate_complexityLevelId")
+}
+
+model ComplexityRate {
+ id String @id @default(uuid()) @db.Uuid
+ complexityLevelId String @db.Uuid
+ hourlyRate Decimal @db.Decimal(20,4)
+ validFrom DateTime @db.Date
+ validTo DateTime? @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ complexityLevelIdRef ComplexityLevel @relation("ComplexityRate_complexityLevelId", fields: [complexityLevelId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("ComplexityRate_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ComplexityRate_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ WorkEntry_complexityRateId_rows WorkEntry[] @relation("WorkEntry_complexityRateId")
+}
+
+model ProjectPartnerRate {
+ id String @id @default(uuid()) @db.Uuid
+ projectId String @unique @db.Uuid
+ rate Decimal @db.Decimal(18,12)
+ validFrom DateTime @db.Date
+ validTo DateTime? @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ projectIdRef Project @relation("ProjectPartnerRate_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("ProjectPartnerRate_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ProjectPartnerRate_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model WorkEntry {
+ projectAuditSectionId String? @db.Uuid
+ auditSection ProjectAuditSection? @relation(fields:[projectAuditSectionId],references:[id],onDelete:Restrict)
+ voided Boolean @default(false)
+ correctionOf String? @unique @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ projectId String @db.Uuid
+ employeeId String @db.Uuid
+ complexityRateId String @db.Uuid
+ description String
+ accountingDate DateTime @db.Date
+ plannedHours Decimal @db.Decimal(12,4)
+ actualHours Decimal @db.Decimal(12,4)
+ rateSnapshot Decimal @db.Decimal(20,4)
+ earned Decimal @db.Decimal(20,4)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("WorkEntry_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ projectIdRef Project @relation("WorkEntry_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("WorkEntry_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ complexityRateIdRef ComplexityRate @relation("WorkEntry_complexityRateId", fields: [complexityRateId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("WorkEntry_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("WorkEntry_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model PaymentCategory {
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ kind String
+ settlementRelevant Boolean @default(false)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("PaymentCategory_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("PaymentCategory_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ EmployeePayment_paymentCategoryId_rows EmployeePayment[] @relation("EmployeePayment_paymentCategoryId")
+}
+
+model EmployeePayment {
+ bonusApprovalId String? @unique @db.Uuid
+ bonusApproval BonusExceptionApproval? @relation(fields:[bonusApprovalId],references:[id],onDelete:Restrict)
+
+ kindSnapshot String @default("SALARY")
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ employeeId String @db.Uuid
+ paymentCategoryId String @db.Uuid
+ quarterEmployeeSettlementId String? @db.Uuid
+ paymentDate DateTime @db.Date
+ accountingPeriod DateTime @db.Date
+ amount Decimal @db.Decimal(20,4)
+ settlementRelevantSnapshot Boolean
+ salaryRateSnapshot Decimal? @db.Decimal(20,4)
+ journalTransactionId String @db.Uuid
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("EmployeePayment_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("EmployeePayment_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ paymentCategoryIdRef PaymentCategory @relation("EmployeePayment_paymentCategoryId", fields: [paymentCategoryId], references: [id], onDelete: Restrict)
+ quarterEmployeeSettlementIdRef QuarterEmployeeSettlement? @relation("EmployeePayment_quarterEmployeeSettlementId", fields: [quarterEmployeeSettlementId], references: [id], onDelete: Restrict)
+ journalTransactionIdRef JournalTransaction @relation("EmployeePayment_journalTransactionId", fields: [journalTransactionId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("EmployeePayment_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("EmployeePayment_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model ExpenseCategory {
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("ExpenseCategory_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ExpenseCategory_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ Expense_expenseCategoryId_rows Expense[] @relation("Expense_expenseCategoryId")
+}
+
+model Expense {
+ allocationReference String?
+ allocationOriginalTotal Decimal? @db.Decimal(20,4)
+ journal JournalTransaction? @relation("ExpenseJournal", fields:[journalTransactionId], references:[id], onDelete:Restrict, onUpdate:NoAction)
+
+ journalTransactionId String? @unique @db.Uuid
+ costType String @default("OTHER")
+ voided Boolean @default(false)
+ correctionOf String? @unique @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ projectId String? @db.Uuid
+ expenseCategoryId String @db.Uuid
+ businessTripId String? @db.Uuid
+ amount Decimal @db.Decimal(20,4)
+ currency String @default("UZS")
+ originalAmount Decimal @db.Decimal(20,4)
+ exchangeRate Decimal @db.Decimal(24,12)
+ exchangeRateDate DateTime @db.Date
+ accountingDate DateTime @db.Date
+ comment String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("Expense_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ projectIdRef Project? @relation("Expense_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ expenseCategoryIdRef ExpenseCategory @relation("Expense_expenseCategoryId", fields: [expenseCategoryId], references: [id], onDelete: Restrict)
+ businessTripIdRef BusinessTrip? @relation("Expense_businessTripId", fields: [businessTripId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("Expense_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("Expense_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model ProjectRevenue {
+ journal JournalTransaction? @relation("RevenueJournal", fields:[journalTransactionId], references:[id], onDelete:Restrict, onUpdate:NoAction)
+
+ journalTransactionId String? @unique @db.Uuid
+ voided Boolean @default(false)
+ correctionOf String? @unique @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ projectId String @db.Uuid
+ amount Decimal @db.Decimal(20,4)
+ accountingDate DateTime @db.Date
+ comment String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("ProjectRevenue_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ projectIdRef Project @relation("ProjectRevenue_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("ProjectRevenue_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ProjectRevenue_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model BusinessTrip {
+ paymentTrackingStarted Boolean @default(false)
+ paymentLinks TripPaymentLink[]
+ paymentReviews TripPaymentReview[]
+ feeAllocations CashOutAllocation[] @relation("TripFee")
+
+ transport Decimal @default(0) @db.Decimal(20,4)
+ hotel Decimal @default(0) @db.Decimal(20,4)
+ other Decimal @default(0) @db.Decimal(20,4)
+ perDiemAmount Decimal @default(0) @db.Decimal(20,4)
+ voided Boolean @default(false)
+ correctionOf String? @unique @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ projectId String? @db.Uuid
+ employeeId String @db.Uuid
+ destination String
+ startDate DateTime @db.Date
+ endDate DateTime @db.Date
+ days Int
+ perDiemRate Decimal @db.Decimal(20,4)
+ comment String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ Expense_businessTripId_rows Expense[] @relation("Expense_businessTripId")
+ seasonIdRef Season @relation("BusinessTrip_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ projectIdRef Project? @relation("BusinessTrip_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("BusinessTrip_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("BusinessTrip_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("BusinessTrip_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model LedgerAccount {
+ bank String?
+ archived Boolean @default(false)
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ kind String
+ currency String @default("UZS")
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("LedgerAccount_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("LedgerAccount_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ JournalLine_ledgerAccountId_rows JournalLine[] @relation("JournalLine_ledgerAccountId")
+ CashOutTransaction_bankAccountId_rows CashOutTransaction[] @relation("CashOutTransaction_bankAccountId")
+ CashOutTransaction_cashAccountId_rows CashOutTransaction[] @relation("CashOutTransaction_cashAccountId")
+ CashReconciliation_ledgerAccountId_rows CashReconciliation[] @relation("CashReconciliation_ledgerAccountId")
+}
+
+model JournalTransaction {
+ tripPayment TripPaymentLink?
+ expenses Expense[] @relation("ExpenseJournal")
+ revenues ProjectRevenue[] @relation("RevenueJournal")
+ project Project? @relation("JournalProject",fields:[projectId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+ employee Employee? @relation("JournalEmployee",fields:[employeeId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+ partner Partner? @relation("JournalPartner",fields:[partnerId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+
+ operation String @default("ADJUSTMENT")
+ projectId String? @db.Uuid
+ employeeId String? @db.Uuid
+ partnerId String? @db.Uuid
+ categoryId String? @db.Uuid
+ sourceType String?
+ sourceId String? @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ postingDate DateTime @db.Date
+ accountingDate DateTime @db.Date
+ idempotencyKey String @unique
+ reversalOf String? @unique @db.Uuid
+ reason String
+ status String @default("DRAFT")
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ EmployeePayment_journalTransactionId_rows EmployeePayment[] @relation("EmployeePayment_journalTransactionId")
+ seasonIdRef Season @relation("JournalTransaction_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ reversalOfRef JournalTransaction? @relation("JournalTransaction_reversalOf", fields: [reversalOf], references: [id], onDelete: Restrict)
+ JournalTransaction_reversalOf_rows JournalTransaction[] @relation("JournalTransaction_reversalOf")
+ createdByRef User @relation("JournalTransaction_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("JournalTransaction_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ JournalLine_journalTransactionId_rows JournalLine[] @relation("JournalLine_journalTransactionId")
+ CashOutTransaction_journalTransactionId_rows CashOutTransaction[] @relation("CashOutTransaction_journalTransactionId")
+ PartnerPayment_journalTransactionId_rows PartnerPayment[] @relation("PartnerPayment_journalTransactionId")
+}
+
+model JournalLine {
+ id String @id @default(uuid()) @db.Uuid
+ journalTransactionId String @db.Uuid
+ ledgerAccountId String @db.Uuid
+ debit Decimal @db.Decimal(20,4)
+ credit Decimal @db.Decimal(20,4)
+ originalAmount Decimal @db.Decimal(20,4)
+ exchangeRate Decimal @db.Decimal(24,12)
+ exchangeRateDate DateTime @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ journalTransactionIdRef JournalTransaction @relation("JournalLine_journalTransactionId", fields: [journalTransactionId], references: [id], onDelete: Restrict)
+ ledgerAccountIdRef LedgerAccount @relation("JournalLine_ledgerAccountId", fields: [ledgerAccountId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("JournalLine_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("JournalLine_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model CashOutMethod {
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("CashOutMethod_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("CashOutMethod_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ CashOutMethodRate_cashOutMethodId_rows CashOutMethodRate[] @relation("CashOutMethodRate_cashOutMethodId")
+}
+
+model CashOutMethodRate {
+ id String @id @default(uuid()) @db.Uuid
+ cashOutMethodId String @db.Uuid
+ rate Decimal @db.Decimal(18,12)
+ validFrom DateTime @db.Date
+ validTo DateTime? @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ cashOutMethodIdRef CashOutMethod @relation("CashOutMethodRate_cashOutMethodId", fields: [cashOutMethodId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("CashOutMethodRate_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("CashOutMethodRate_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ CashOutTransaction_cashOutMethodRateId_rows CashOutTransaction[] @relation("CashOutTransaction_cashOutMethodRateId")
+}
+
+model CashOutTransaction {
+ tripPayments TripPaymentLink[]
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ cashOutMethodRateId String @db.Uuid
+ journalTransactionId String @unique @db.Uuid
+ bankAccountId String @db.Uuid
+ cashAccountId String @db.Uuid
+ rateSnapshot Decimal @db.Decimal(18,12)
+ bankOut Decimal @db.Decimal(20,4)
+ cashReceived Decimal @db.Decimal(20,4)
+ actualFee Decimal @db.Decimal(20,4)
+ expectedFee Decimal @db.Decimal(20,4)
+ purpose String
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("CashOutTransaction_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ cashOutMethodRateIdRef CashOutMethodRate @relation("CashOutTransaction_cashOutMethodRateId", fields: [cashOutMethodRateId], references: [id], onDelete: Restrict)
+ journalTransactionIdRef JournalTransaction @relation("CashOutTransaction_journalTransactionId", fields: [journalTransactionId], references: [id], onDelete: Restrict)
+ bankAccountIdRef LedgerAccount @relation("CashOutTransaction_bankAccountId", fields: [bankAccountId], references: [id], onDelete: Restrict)
+ cashAccountIdRef LedgerAccount @relation("CashOutTransaction_cashAccountId", fields: [cashAccountId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("CashOutTransaction_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("CashOutTransaction_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ CashOutAllocation_cashOutTransactionId_rows CashOutAllocation[] @relation("CashOutAllocation_cashOutTransactionId")
+}
+
+model CashOutAllocation {
+ trip BusinessTrip? @relation("TripFee", fields:[businessTripId], references:[id], onDelete:Restrict, onUpdate:NoAction)
+
+ businessTripId String? @db.Uuid
+ id String @id @default(uuid()) @db.Uuid
+ cashOutTransactionId String @db.Uuid
+ projectId String? @db.Uuid
+ amount Decimal @db.Decimal(20,4)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ cashOutTransactionIdRef CashOutTransaction @relation("CashOutAllocation_cashOutTransactionId", fields: [cashOutTransactionId], references: [id], onDelete: Restrict)
+ projectIdRef Project? @relation("CashOutAllocation_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("CashOutAllocation_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("CashOutAllocation_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model CashReconciliation {
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ ledgerAccountId String @db.Uuid
+ date DateTime
+ expected Decimal @db.Decimal(20,4)
+ actual Decimal @db.Decimal(20,4)
+ difference Decimal @db.Decimal(20,4)
+ explanation String?
+ resolved Boolean @default(false)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("CashReconciliation_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ ledgerAccountIdRef LedgerAccount @relation("CashReconciliation_ledgerAccountId", fields: [ledgerAccountId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("CashReconciliation_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("CashReconciliation_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model QuarterEmployeeSettlement {
+ carrySourceId String? @db.Uuid
+ carrySource QuarterEmployeeSettlement? @relation("QuarterCarry",fields:[carrySourceId],references:[id],onDelete:Restrict)
+ carryDestinations QuarterEmployeeSettlement[] @relation("QuarterCarry")
+ originalBonusApprovals BonusExceptionApproval[] @relation("BonusOriginal")
+ currentBonusApprovals BonusExceptionApproval[] @relation("BonusCurrent")
+
+ sourceRevision Int @default(0)
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ employeeId String @db.Uuid
+ periodStart DateTime @db.Date
+ periodEnd DateTime @db.Date
+ earned Decimal @db.Decimal(20,4)
+ ktu Decimal @db.Decimal(20,4)
+ carryIn Decimal @db.Decimal(20,4)
+ salary Decimal @db.Decimal(20,4)
+ difference Decimal @db.Decimal(20,4)
+ bonus Decimal @db.Decimal(20,4)
+ carryOut Decimal @db.Decimal(20,4)
+ status String
+ @@index([seasonId,employeeId,periodStart])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ EmployeePayment_quarterEmployeeSettlementId_rows EmployeePayment[] @relation("EmployeePayment_quarterEmployeeSettlementId")
+ seasonIdRef Season @relation("QuarterEmployeeSettlement_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("QuarterEmployeeSettlement_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("QuarterEmployeeSettlement_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("QuarterEmployeeSettlement_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model SeasonEmployeeSettlement {
+ roundingDifference Decimal @default(0) @db.Decimal(20,4)
+
+ sourceRevision Int @default(0)
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ employeeId String @db.Uuid
+ earned Decimal @db.Decimal(20,4)
+ ktu Decimal @db.Decimal(20,4)
+ paid Decimal @db.Decimal(20,4)
+ outstanding Decimal @db.Decimal(20,4)
+ finalPayment Decimal @db.Decimal(20,4)
+ @@index([seasonId,employeeId])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("SeasonEmployeeSettlement_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ employeeIdRef Employee @relation("SeasonEmployeeSettlement_employeeId", fields: [employeeId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("SeasonEmployeeSettlement_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("SeasonEmployeeSettlement_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model AllocationRun {
+ paymentAttributions PartnerPaymentAttribution[]
+
+ sourceRevision Int @default(0)
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ periodStart DateTime @db.Date
+ periodEnd DateTime @db.Date
+ pool Decimal @db.Decimal(20,4)
+ status String
+ overrideReason String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("AllocationRun_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("AllocationRun_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("AllocationRun_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ ProjectAllocation_allocationRunId_rows ProjectAllocation[] @relation("ProjectAllocation_allocationRunId")
+}
+
+model ProjectAllocation {
+ revenue Decimal? @db.Decimal(20,4)
+ directCost Decimal? @db.Decimal(20,4)
+ allocationShare Decimal? @db.Decimal(18,12)
+ id String @id @default(uuid()) @db.Uuid
+ allocationRunId String @db.Uuid
+ projectId String @db.Uuid
+ gad Decimal @db.Decimal(20,4)
+ weight Decimal @db.Decimal(20,4)
+ allocated Decimal @db.Decimal(20,4)
+ rateSnapshot Decimal @db.Decimal(18,12)
+ net Decimal @db.Decimal(20,4)
+ entitlement Decimal @db.Decimal(20,4)
+ @@unique([allocationRunId,projectId])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ allocationRunIdRef AllocationRun @relation("ProjectAllocation_allocationRunId", fields: [allocationRunId], references: [id], onDelete: Restrict)
+ projectIdRef Project @relation("ProjectAllocation_projectId", fields: [projectId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("ProjectAllocation_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("ProjectAllocation_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model PartnerPayment {
+ attribution PartnerPaymentAttribution?
+
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ partnerId String @db.Uuid
+ journalTransactionId String @db.Uuid
+ amount Decimal @db.Decimal(20,4)
+ paymentDate DateTime @db.Date
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("PartnerPayment_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ partnerIdRef Partner @relation("PartnerPayment_partnerId", fields: [partnerId], references: [id], onDelete: Restrict)
+ journalTransactionIdRef JournalTransaction @relation("PartnerPayment_journalTransactionId", fields: [journalTransactionId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("PartnerPayment_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("PartnerPayment_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model SeasonClosing {
+ reportSnapshot Json?
+ reportFingerprint String?
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ status String
+ reason String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonIdRef Season @relation("SeasonClosing_seasonId", fields: [seasonId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("SeasonClosing_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("SeasonClosing_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+ SeasonClosingCheck_seasonClosingId_rows SeasonClosingCheck[] @relation("SeasonClosingCheck_seasonClosingId")
+}
+
+model SeasonClosingCheck {
+ approvalFingerprint String?
+
+ id String @id @default(uuid()) @db.Uuid
+ seasonClosingId String @db.Uuid
+ name String
+ resolved Boolean @default(false)
+ explanation String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ seasonClosingIdRef SeasonClosing @relation("SeasonClosingCheck_seasonClosingId", fields: [seasonClosingId], references: [id], onDelete: Restrict)
+ createdByRef User @relation("SeasonClosingCheck_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("SeasonClosingCheck_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model AuditLog {
+ id String @id @default(uuid()) @db.Uuid
+ entity String
+ entityId String @db.Uuid
+ operation String
+ oldValue Json?
+ newValue Json?
+ reason String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ createdBy String @db.Uuid
+ updatedBy String? @db.Uuid
+ createdByRef User @relation("AuditLog_createdBy", fields: [createdBy], references: [id], onDelete: Restrict)
+ updatedByRef User? @relation("AuditLog_updatedBy", fields: [updatedBy], references: [id], onDelete: Restrict)
+}
+
+model CommandReceipt {
+ user User @relation("CommandReceiptUser", fields:[userId], references:[id], onDelete:Restrict, onUpdate:NoAction)
+
+ id String @id @db.Uuid
+ userId String @db.Uuid
+ operation String
+ requestHash String
+ resultId String @db.Uuid
+ createdAt DateTime @default(now())
+}
+model SettlementSource {
+ id String @id @default(uuid()) @db.Uuid
+ settlementId String @db.Uuid
+ settlementType String
+ sourceId String @db.Uuid
+ sourceType String
+ amount Decimal @db.Decimal(20,4)
+ @@unique([settlementId,sourceId,sourceType])
+}
+
+
+
+model ProjectSeason {
+ id String @id @default(uuid()) @db.Uuid
+ projectId String @db.Uuid
+ seasonId String @db.Uuid
+ project Project @relation(fields:[projectId],references:[id],onDelete:Restrict)
+ season Season @relation(fields:[seasonId],references:[id],onDelete:Restrict)
+ @@unique([projectId,seasonId])
+}
+model CalculationAcceptance {
+ id String @id @default(uuid()) @db.Uuid
+ key String @unique
+ seasonId String @db.Uuid
+ kind String
+ targetId String @db.Uuid
+ acceptedBy String @db.Uuid
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ season Season @relation(fields:[seasonId],references:[id],onDelete:Restrict)
+ user User @relation(fields:[acceptedBy],references:[id],onDelete:Restrict)
+}
+model BonusExceptionApproval {
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ employeeId String @db.Uuid
+ originalSettlementId String @db.Uuid
+ currentSettlementId String? @db.Uuid
+ approvedBonus Decimal @db.Decimal(20,4)
+ requestedPayment Decimal @db.Decimal(20,4)
+ difference Decimal @db.Decimal(20,4)
+ explanation String
+ authorizedBy String @db.Uuid
+ sourceRevision Int
+ createdAt DateTime @default(now())
+ season Season @relation(fields:[seasonId],references:[id],onDelete:Restrict)
+ employee Employee @relation(fields:[employeeId],references:[id],onDelete:Restrict)
+ originalSettlement QuarterEmployeeSettlement @relation("BonusOriginal",fields:[originalSettlementId],references:[id],onDelete:Restrict)
+ currentSettlement QuarterEmployeeSettlement? @relation("BonusCurrent",fields:[currentSettlementId],references:[id],onDelete:Restrict)
+ user User @relation(fields:[authorizedBy],references:[id],onDelete:Restrict)
+ payment EmployeePayment?
+}
+model PartnerPaymentAttribution {
+ id String @id @default(uuid()) @db.Uuid
+ paymentId String @unique @db.Uuid
+ allocationRunId String @db.Uuid
+ reason String
+ createdBy String @db.Uuid
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ payment PartnerPayment @relation(fields:[paymentId],references:[id],onDelete:Restrict)
+ allocation AllocationRun @relation(fields:[allocationRunId],references:[id],onDelete:Restrict)
+ user User @relation(fields:[createdBy],references:[id],onDelete:Restrict)
+}
+model TripPaymentLink {
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ businessTripId String @db.Uuid
+ journalTransactionId String @unique @db.Uuid
+ cashOutTransactionId String? @db.Uuid
+ kind String
+ reason String
+ document String?
+ createdBy String @db.Uuid
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ season Season @relation(fields:[seasonId],references:[id],onDelete:Restrict)
+ trip BusinessTrip @relation(fields:[businessTripId],references:[id],onDelete:Restrict)
+ journal JournalTransaction @relation(fields:[journalTransactionId],references:[id],onDelete:Restrict)
+ cashOut CashOutTransaction? @relation(fields:[cashOutTransactionId],references:[id],onDelete:Restrict)
+ actor User @relation("TripPaymentActor",fields:[createdBy],references:[id],onDelete:Restrict)
+ @@index([businessTripId])
+}
+model TripPaymentReview {
+ id String @id @default(uuid()) @db.Uuid
+ seasonId String @db.Uuid
+ businessTripId String @db.Uuid
+ fingerprint String
+ reason String
+ createdBy String @db.Uuid
+ createdAt DateTime @default(now())
+ season Season @relation(fields:[seasonId],references:[id],onDelete:Restrict)
+ trip BusinessTrip @relation(fields:[businessTripId],references:[id],onDelete:Restrict)
+ actor User @relation("TripReviewActor",fields:[createdBy],references:[id],onDelete:Restrict)
+ @@index([businessTripId])
+}
+enum AuditProjectType {
+ INDUSTRIAL
+ INTERNATIONAL
+}
+model AuditSectionTemplate {
+ id String @id @default(uuid()) @db.Uuid
+ projectType AuditProjectType
+ code String
+ name String
+ sortOrder Int
+ active Boolean @default(true)
+ description String?
+ sections ProjectAuditSection[]
+ @@unique([projectType,code])
+}
+model ProjectAuditSection {
+ id String @id @default(uuid()) @db.Uuid
+ projectId String @db.Uuid
+ templateId String? @db.Uuid
+ codeSnapshot String
+ nameSnapshot String
+ sortOrder Int
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ createdBy String @db.Uuid
+ project Project @relation(fields:[projectId],references:[id],onDelete:Restrict)
+ template AuditSectionTemplate? @relation(fields:[templateId],references:[id],onDelete:Restrict)
+ creator User @relation("SectionActor",fields:[createdBy],references:[id],onDelete:Restrict)
+ assignments ProjectSectionAssignment[]
+ workEntries WorkEntry[]
+ @@unique([projectId,codeSnapshot])
+}
+model ProjectSectionAssignment {
+ id String @id @default(uuid()) @db.Uuid
+ projectAuditSectionId String @db.Uuid
+ employeeId String @db.Uuid
+ plannedHours Decimal? @db.Decimal(12,4)
+ defaultComplexityLevelId String? @db.Uuid
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
+ createdBy String @db.Uuid
+ section ProjectAuditSection @relation(fields:[projectAuditSectionId],references:[id],onDelete:Restrict)
+ employee Employee @relation(fields:[employeeId],references:[id],onDelete:Restrict)
+ defaultComplexityLevel ComplexityLevel? @relation(fields:[defaultComplexityLevelId],references:[id],onDelete:Restrict)
+ creator User @relation("SectionAssignmentActor",fields:[createdBy],references:[id],onDelete:Restrict)
+ @@unique([projectAuditSectionId,employeeId])
+}
