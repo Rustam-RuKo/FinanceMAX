@@ -31,6 +31,18 @@
 !/scripts/scan-secrets.mjs
 !/scripts/browser-fixture.ts
 
+# Reviewed Windows deployment package only; local config stays excluded.
+!/scripts/windows/
+/scripts/windows/*
+!/scripts/windows/install-financemax.ps1
+!/scripts/windows/verify-financemax.ps1
+!/scripts/windows/backup-financemax.ps1
+!/scripts/windows/update-financemax.ps1
+!/scripts/windows/config.example.psd1
+!/scripts/windows/common.ps1
+!/scripts/windows/start-runtime.ps1
+!/scripts/windows/test-windows-package.ps1
+
 # Only approved user documentation and this publication audit.
 /docs/*
 !/docs/РУКОВОДСТВО_ПОЛЬЗОВАТЕЛЯ_FINANCEMAX.md
@@ -38,6 +50,11 @@
 !/docs/FINANCEMAX_АДМИНИСТРАТОР.md
 !/docs/user-guide-validation.md
 !/docs/github-readiness.md
+!/docs/DEPLOYMENT_СЕРВЕР_FINANCEMAX_WINDOWS.md
+!/docs/FINANCEMAX_BACKUP_И_RESTORE_WINDOWS.md
+!/docs/FINANCEMAX_ОБНОВЛЕНИЕ_И_ROLLBACK_WINDOWS.md
+!/docs/FINANCEMAX_SERVER_CHECKLIST_WINDOWS.md
+!/docs/windows-deployment-readiness.md
 
 .env
 .env.*
